@@ -309,5 +309,8 @@ int main(int argc, char **argv)
     cv::imshow("Example1", img);
     cv::waitKey(0);
     cv::destroyWindow("Example1");
+
+    delete dst;
+    dst = NULL;
     return 0;
 }
