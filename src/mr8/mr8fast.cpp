@@ -296,9 +296,9 @@ int main(int argc, char **argv)
     pSlic->DoSuperpixelSegmentation_ForGivenNumberOfSuperpixels(dst, width, height, labels, numlabels, nspcounts, compacts);
     cout << "num labels:" << numlabels << endl;
     cout << "labels:" << endl;
-    for (int i = 0; i < height; i++)
+    for (uint i = 0; i < height; i++)
     {
-        for (int j = 0; j < width; j++)
+        for (uint j = 0; j < width; j++)
         {
             cout << labels[i * width + j] << ",";
         }
