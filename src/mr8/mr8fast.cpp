@@ -282,10 +282,10 @@ int main(int argc, char **argv)
         return -1;
     }
 
-    uint32_t *dst[img.cols] = new uint32_t[img.cols][img.rows];
+    uint32_t *dst = new uint32_t[img.cols * img.rows];
     uint width = img.cols;
     uint height = img.rows;
-    unique_ptr<Util> pUtil = Util::getInstance();
+    shared_ptr<Util> pUtil = Util::getInstance();
     pUtil->mat2IntArray(img, &width, &height, dst);
 
     int *labels = new int[width * height];

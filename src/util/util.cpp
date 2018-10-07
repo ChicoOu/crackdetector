@@ -1,7 +1,7 @@
 #include <util.hpp>
 #include <iostream>
 
-unique_ptr<Util> Util::_instance = nullptr;
+shared_ptr<Util> Util::_instance = nullptr;
 
 Util::Util()
 {
@@ -15,17 +15,17 @@ Util::~Util()
 {
 }
 
-unique_ptr<Util> &Util::getInstance()
+shared_ptr<Util> &Util::getInstance()
 {
     if (_instance == nullptr)
     {
-        _instance = make_unique<Util>();
+        _instance = make_shared<Util>();
     }
 
     return _instance;
 }
 
-void Util::mat2IntArray(cv::Mat &mat, uint *width, uint *height, uint32_t **dst)
+void Util::mat2IntArray(cv::Mat &mat, uint *width, uint *height, uint32_t *dst)
 {
     assert(dst != NULL);
     CV_Assert(mat.depth() != sizeof(uchar));
@@ -42,14 +42,17 @@ void Util::mat2IntArray(cv::Mat &mat, uint *width, uint *height, uint32_t **dst)
         p = mat.ptr<uchar>(i);
         for (j = 0; j < nCols;)
         {
+            int n = i * nRows + j;
             // B
-            dst[i][j] = p[j];
+            dst[n] = p[j];
             j++;
+            n++;
             // G
-            dst[i][j] |= (p[j] << 8);
+            dst[n] |= (p[j] << 8);
             j++;
+            n++;
             // R
-            dst[i][j] |= (p[j] << 16);
+            dst[n] |= (p[j] << 16);
         }
     }
 }

@@ -8,13 +8,13 @@ using namespace std;
 class Util
 {
   private:
-    static unique_ptr<Util> _instance;
+    static shared_ptr<Util> _instance;
     Util();
     Util(Util &util);
-    ~Util();
 
   public:
-    static unique_ptr<Util> &getInstance();
-    void mat2IntArray(cv::Mat &mat, uint *width, uint *height, uint32_t **dst);
+    ~Util();
+    static shared_ptr<Util> &getInstance();
+    void mat2IntArray(cv::Mat &mat, uint *width, uint *height, uint32_t *dst);
 };
 #endif
