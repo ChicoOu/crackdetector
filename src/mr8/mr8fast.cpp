@@ -1,6 +1,8 @@
 #include <mr8fast.hpp>
 #include <iostream>
 
+const float PI = (3.1415926);
+
 CMR8Fast::CMR8Fast()
 {
 }
