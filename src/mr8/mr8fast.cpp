@@ -295,15 +295,17 @@ int main(int argc, char **argv)
     unique_ptr<SLIC> pSlic = make_unique<SLIC>();
     pSlic->DoSuperpixelSegmentation_ForGivenNumberOfSuperpixels(dst, width, height, labels, numlabels, nspcounts, compacts);
     cout << "num labels:" << numlabels << endl;
-    cout << "labels:" << endl;
+    //cout << "labels:" << endl;
     for (uint i = 0; i < height; i++)
     {
+        int *current = labels + (i * width);
         for (uint j = 0; j < width; j++)
         {
-            uint n = i * width + j;
-            if (n > 0 && n < (height * width - 1))
+            if (i > 0 && i < (height - 1) && j > 0 && j < (width - 1))
             {
-                if (labels[n] != labels[n - 1] || labels[n] != labels[n + 1])
+                int *prev = labels + (i * (width - 1));
+                int *next = labels + (i * (width + 1));
+                if (current[j] != current[j - 1] || current[j] != current[j + 1] || current[j] != prev[j] || current[j] != next[j])
                 {
                     uchar *p = img.ptr(i, j);
                     p[0] = 0xFF;
@@ -311,9 +313,9 @@ int main(int argc, char **argv)
                     p[2] = 0xFF;
                 }
             }
-            cout << labels[n] << ",";
+            //cout << labels[n] << ",";
         }
-        cout << endl;
+        //cout << endl;
     }
 
     cv::namedWindow("Example1", cv::WINDOW_AUTOSIZE);
