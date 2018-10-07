@@ -53,6 +53,7 @@ void Util::mat2IntArray(cv::Mat &mat, uint *width, uint *height, uint32_t *dst)
 
             // R
             dst[n] |= (p[j] << 16);
+            j++;
         }
     }
 }

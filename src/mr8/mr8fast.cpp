@@ -282,13 +282,17 @@ int main(int argc, char **argv)
         return -1;
     }
 
-    uint32_t *dst = new uint32_t[img.cols * img.rows];
+    int count = img.cols * img.rows;
+    uint32_t *dst = new uint32_t[count];
+    memset(dst, 0, sizeof(uint32_t) * count);
     uint width = img.cols;
     uint height = img.rows;
     shared_ptr<Util> pUtil = Util::getInstance();
     pUtil->mat2IntArray(img, &width, &height, dst);
+    cout << "After change to array:" << width << "," << height << endl;
 
-    int *labels = new int[width * height];
+    int *labels = new int[count];
+    memset(labels, 0, sizeof(int) * count);
     int numlabels(0);
     int nspcounts = 2000;
     int compacts = 40;
@@ -303,11 +307,17 @@ int main(int argc, char **argv)
         {
             if (i > 0 && i < (height - 1) && j > 0 && j < (width - 1))
             {
-                int *prev = labels + (i * (width - 1));
-                int *next = labels + (i * (width + 1));
-                if (current[j] != current[j - 1] || current[j] != current[j + 1] || current[j] != prev[j] || current[j] != next[j])
+                int *prev = labels + ((i - 1) * width);
+                int *next = labels + ((i + 1) * width);
+                if (current[j] != current[j - 1] || current[j] != prev[j])
                 {
-                    uchar *p = img.ptr(i, j);
+                    uchar *p = img.ptr<uchar>(i, j);
+                    uchar *test = img.ptr<uchar>(i, j + 1);
+                    if ((p + 1) == test)
+                    {
+                        cout << "Something wrong!" << endl;
+                    }
+
                     p[0] = 0xFF;
                     p[1] = 0xFF;
                     p[2] = 0xFF;
@@ -318,12 +328,16 @@ int main(int argc, char **argv)
         //cout << endl;
     }
 
-    cv::namedWindow("Example1", cv::WINDOW_AUTOSIZE);
+    cv::namedWindow("Example1", cv::WINDOW_NORMAL);
+    //cv::resizeWindow("Example1", 800, (int)(height * (800 / width)));
     cv::imshow("Example1", img);
     cv::waitKey(0);
     cv::destroyWindow("Example1");
 
-    delete dst;
+    delete[] dst;
     dst = NULL;
+
+    delete labels;
+    labels = NULL;
     return 0;
 }
