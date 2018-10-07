@@ -1,7 +1,11 @@
 #include <mr8fast.hpp>
 #include <iostream>
+#include <slic.hpp>
+#include <util.hpp>
 
 const float PI = (3.1415926);
+
+CMR8Fast *CMR8Fast::s_instance = NULL;
 
 CMR8Fast::CMR8Fast()
 {
@@ -233,12 +237,72 @@ void CMR8Fast::applyFilterbank(Mat &img, vector<vector<Mat>> filterbank, vector<
     cout << "leaving apply filterbank" << endl;
 }
 
+void CMR8Fast::createFilterbank(vector<vector<Mat>> &filterbank, int &n_sigmas, int &n_orientations)
+{
+    vector<float> sigmas;
+    sigmas.push_back(1);
+    sigmas.push_back(2);
+    sigmas.push_back(4);
+    n_sigmas = sigmas.size();
+    n_orientations = 6;
+
+    vector<Mat> edge, bar, rot;
+    makeRFSfilters(edge, bar, rot, sigmas, n_orientations);
+
+    // Store created filters in fitlerbank 2d vector<Mat>
+    filterbank.push_back(edge);
+    filterbank.push_back(bar);
+    filterbank.push_back(rot);
+}
+
+CMR8Fast *CMR8Fast::getInstance()
+{
+    if (s_instance == NULL)
+    {
+        s_instance = new CMR8Fast();
+    }
+
+    return s_instance;
+}
+
+void CMR8Fast::release()
+{
+    if (s_instance != NULL)
+    {
+        delete s_instance;
+        s_instance = NULL;
+    }
+}
+
 int main(int argc, char **argv)
 {
     cv::Mat img = cv::imread(argv[1], -1);
     if (img.empty())
     {
         return -1;
+    }
+
+    uint32_t *dst[img.cols] = new uint32_t[img.cols][img.rows];
+    uint width = img.cols;
+    uint height = img.rows;
+    unique_ptr<Util> pUtil = Util::getInstance();
+    pUtil->mat2IntArray(img, &width, &height, dst);
+
+    int *labels = new int[width * height];
+    int numlabels(0);
+    int nspcounts = 2000;
+    int compacts = 40;
+    unique_ptr<SLIC> pSlic = make_unique<SLIC>();
+    pSlic->DoSuperpixelSegmentation_ForGivenNumberOfSuperpixels(dst, width, height, labels, numlabels, nspcounts, compacts);
+    cout << "num labels:" << numlabels << endl;
+    cout << "labels:" << endl;
+    for (int i = 0; i < height; i++)
+    {
+        for (int j = 0; j < width; j++)
+        {
+            cout << labels[i * width + j] << ",";
+        }
+        cout << endl;
     }
 
     cv::namedWindow("Example1", cv::WINDOW_AUTOSIZE);

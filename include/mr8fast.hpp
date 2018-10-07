@@ -36,6 +36,8 @@ public:
   };
   ~CMR8Fast();
   static CMR8Fast *getInstance();
+  static void release();
+  void createFilterbank(vector<vector<Mat>> &filterbank, int &nSigmas, int &nOrientations);
   void applyFilterbank(Mat &img, vector<vector<Mat>> filterbank, vector<vector<Mat>> &response, int n_sigmas, int n_orientations);
 };
 #endif
