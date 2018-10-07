@@ -46,7 +46,7 @@ void CMR8Fast::normalize(float *response, int size)
         response[i] /= summ;
 }
 
-void CMR8Fast::makeGaussianFilter(float *response, float *lengths, float sigma, int size, int order = 0)
+void CMR8Fast::makeGaussianFilter(float *response, float *lengths, float sigma, int size, int order)
 {
     assert(order <= 2); //, "Only orders up to 2 are supported"
 
@@ -129,7 +129,7 @@ void CMR8Fast::toMat(float *edgeThis, Mat &edgeThisMat, int support)
     }
 }
 
-void CMR8Fast::makeRFSfilters(vector<Mat> &edge, vector<Mat> &bar, vector<Mat> &rot, vector<float> &sigmas, int n_orientations = 6, int radius = 24)
+void CMR8Fast::makeRFSfilters(vector<Mat> &edge, vector<Mat> &bar, vector<Mat> &rot, vector<float> &sigmas, int n_orientations, int radius)
 {
     int support = 2 * radius + 1;
     int size = support * support;
