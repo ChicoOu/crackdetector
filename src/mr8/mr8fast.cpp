@@ -300,7 +300,18 @@ int main(int argc, char **argv)
     {
         for (uint j = 0; j < width; j++)
         {
-            cout << labels[i * width + j] << ",";
+            uint n = i * width + j;
+            if (n > 0 && n < (height * width - 1))
+            {
+                if (labels[n] != labels[n - 1] || labels[n] != labels[n + 1])
+                {
+                    uchar *p = img.ptr(i, j);
+                    p[0] = 0xFF;
+                    p[1] = 0xFF;
+                    p[2] = 0xFF;
+                }
+            }
+            cout << labels[n] << ",";
         }
         cout << endl;
     }
