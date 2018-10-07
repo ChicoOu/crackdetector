@@ -8,7 +8,7 @@
 #include <cmath>
 #include <iostream>
 #include <fstream>
-#include <SLIC.hpp>
+#include <slic.hpp>
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
