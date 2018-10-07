@@ -13,7 +13,7 @@
 #include "time.h"
 #include <algorithm>
 using namespace std;
-#include "opencv2/opencv.hpp"
+#include <opencv2/opencv.hpp>
 #include <typeinfo>
 #include <sstream>
 #include <chrono> // time measurement
