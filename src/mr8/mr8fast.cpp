@@ -8,9 +8,9 @@ int main(int argc, char **argv)
         return -1;
     }
 
-    cv::nameWindow("Example1", cv::WINDOW_AUTOSIZE);
+    cv::namedWindow("Example1", cv::WINDOW_AUTOSIZE);
     cv::imshow("Example1", img);
-    cv::waitkey(0);
+    cv::waitKey(0);
     cv::destroyWindow("Example1");
     return 0;
 }
