@@ -9,10 +9,10 @@ class Util
 {
   private:
     static shared_ptr<Util> _instance;
-    Util();
-    Util(Util &util);
 
   public:
+    Util();
+    Util(Util &util);
     ~Util();
     static shared_ptr<Util> &getInstance();
     void mat2IntArray(cv::Mat &mat, uint *width, uint *height, uint32_t *dst);
