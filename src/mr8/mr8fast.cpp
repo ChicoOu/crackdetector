@@ -307,8 +307,8 @@ int main(int argc, char **argv)
         {
             if (i > 0 && i < (height - 1) && j > 0 && j < (width - 1))
             {
-                int *prev = (labels - width);
-                int *next = (labels + width);
+                int *prev = (current - width);
+                int *next = (current + width);
                 if (current[j] != current[j - 1] || current[j] != prev[j])
                 {
                     uchar *p = img.ptr<uchar>(i, j);

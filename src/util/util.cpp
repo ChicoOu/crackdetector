@@ -35,27 +35,27 @@ void Util::mat2IntArray(cv::Mat &mat, uint *width, uint *height, uint32_t *dst)
     *height = mat.rows;
     *width = mat.cols;
     int nRows = (*height);
-    int nCols = (*width) * channels;
+    int nCols = (*width);
 
     int i = 0, j = 0;
     uchar *p = NULL;
     for (i = 0; i < nRows; ++i)
     {
-        p = mat.ptr<uchar>(i);
         int base = i * nRows;
         for (j = 0; j < nCols;)
         {
+            p = mat.ptr<uchar>(i, j);
             int n = base + j;
             // B
-            dst[n] = p[j];
+            dst[n] = p[0];
             j++;
 
             // G
-            dst[n] |= (p[j] << 8);
+            dst[n] |= (p[1] << 8);
             j++;
 
             // R
-            dst[n] |= (p[j] << 16);
+            dst[n] |= (p[2] << 16);
             j++;
         }
     }
