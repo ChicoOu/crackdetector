@@ -276,7 +276,7 @@ void CMR8Fast::release()
 
 int main(int argc, char **argv)
 {
-    cv::Mat img = cv::imread(argv[1], -1);
+    cv::Mat img = cv::imread(argv[1], cv::ImreadModes::IMREAD_COLOR);
     if (img.empty())
     {
         return -1;
@@ -307,16 +307,11 @@ int main(int argc, char **argv)
         {
             if (i > 0 && i < (height - 1) && j > 0 && j < (width - 1))
             {
-                int *prev = labels + ((i - 1) * width);
-                int *next = labels + ((i + 1) * width);
+                int *prev = (labels - width);
+                int *next = (labels + width);
                 if (current[j] != current[j - 1] || current[j] != prev[j])
                 {
                     uchar *p = img.ptr<uchar>(i, j);
-                    uchar *test = img.ptr<uchar>(i, j + 1);
-                    if ((p + 1) == test)
-                    {
-                        cout << "Something wrong!" << endl;
-                    }
 
                     p[0] = 0xFF;
                     p[1] = 0xFF;

@@ -30,6 +30,8 @@ void Util::mat2IntArray(cv::Mat &mat, uint *width, uint *height, uint32_t *dst)
     assert(dst != NULL);
     CV_Assert(mat.depth() != sizeof(uchar));
     int channels = mat.channels();
+    assert(channels == 3);
+
     *height = mat.rows;
     *width = mat.cols;
     int nRows = (*height);
@@ -40,9 +42,10 @@ void Util::mat2IntArray(cv::Mat &mat, uint *width, uint *height, uint32_t *dst)
     for (i = 0; i < nRows; ++i)
     {
         p = mat.ptr<uchar>(i);
+        int base = i * nRows;
         for (j = 0; j < nCols;)
         {
-            int n = i * nRows + j;
+            int n = base + j;
             // B
             dst[n] = p[j];
             j++;
