@@ -42,7 +42,7 @@ void Util::mat2IntArray(cv::Mat &mat, uint *width, uint *height, uint32_t *dst)
     for (i = 0; i < nRows; ++i)
     {
         int base = i * nRows;
-        for (j = 0; j < nCols;)
+        for (j = 0; j < nCols; j++)
         {
             p = mat.ptr<uchar>(i, j);
             int n = base + j;
