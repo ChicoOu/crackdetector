@@ -47,13 +47,14 @@ void Util::mat2IntArray(cv::Mat &mat, uint *width, uint *height, uint32_t *dst)
             p = mat.ptr<uchar>(i, j);
             int n = base + j;
             // B
-            dst[n] = p[0];
+            dst[n] = p[2];
 
             // G
             dst[n] |= (p[1] << 8);
 
             // R
-            dst[n] |= (p[2] << 16);
+            dst[n] |= (p[0] << 16);
+            dst[n] |= 0xFF000000;
         }
     }
 }
