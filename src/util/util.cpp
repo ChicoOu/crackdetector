@@ -48,15 +48,12 @@ void Util::mat2IntArray(cv::Mat &mat, uint *width, uint *height, uint32_t *dst)
             int n = base + j;
             // B
             dst[n] = p[0];
-            j++;
 
             // G
             dst[n] |= (p[1] << 8);
-            j++;
 
             // R
             dst[n] |= (p[2] << 16);
-            j++;
         }
     }
 }
