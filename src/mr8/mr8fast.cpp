@@ -2,6 +2,7 @@
 #include <iostream>
 #include <slic.hpp>
 #include <util.hpp>
+#include <opencv2/ximgproc.hpp>
 
 const float PI = (3.1415926);
 
@@ -282,6 +283,7 @@ int main(int argc, char **argv)
         return -1;
     }
 
+    /*
     int count = img.cols * img.rows;
     uint32_t *dst = new uint32_t[count];
     memset(dst, 0, sizeof(uint32_t) * count);
@@ -321,8 +323,16 @@ int main(int argc, char **argv)
             //cout << labels[n] << ",";
         }
         //cout << endl;
-    }
+    }*/
 
+    Ptr<cv::ximgproc::SuperpixelSLIC> slic = cv::ximgproc::createSuperpixelSLIC(img, cv::ximgproc::MSLIC);
+    slic->iterate(); //迭代次数，默认为10
+    slic->enforceLabelConnectivity();
+    slic->getLabelContourMask(mask);             //获取超像素的边界
+    slic->getLabels(labels);                     //获取labels
+    int number = slic->getNumberOfSuperpixels(); //获取超像素的数量
+
+    img.setTo(Scalar(255, 255, 255), mask);
     cv::namedWindow("Example1", cv::WINDOW_NORMAL);
     //cv::resizeWindow("Example1", 800, (int)(height * (800 / width)));
     cv::imshow("Example1", img);
