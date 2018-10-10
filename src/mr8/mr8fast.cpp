@@ -326,13 +326,15 @@ int main(int argc, char **argv)
     }*/
 
     cv::Mat mask;
-    Ptr<cv::ximgproc::SuperpixelSLIC> slic = cv::ximgproc::createSuperpixelSLIC(img, cv::ximgproc::MSLIC);
-    slic->iterate(); //迭代次数，默认为10
+    cv::Mat labels;
+    Ptr<cv::ximgproc::SuperpixelSLIC> slic = cv::ximgproc::createSuperpixelSLIC(img, cv::ximgproc::SLICO, 50);
+    slic->iterate(5); //迭代次数，默认为10
     slic->enforceLabelConnectivity();
     slic->getLabelContourMask(mask);             //获取超像素的边界
     slic->getLabels(labels);                     //获取labels
     int number = slic->getNumberOfSuperpixels(); //获取超像素的数量
 
+    cout << "Total super pixels:" << number << endl;
     img.setTo(Scalar(255, 255, 255), mask);
     cv::namedWindow("Example1", cv::WINDOW_NORMAL);
     //cv::resizeWindow("Example1", 800, (int)(height * (800 / width)));
@@ -340,10 +342,10 @@ int main(int argc, char **argv)
     cv::waitKey(0);
     cv::destroyWindow("Example1");
 
-    delete[] dst;
-    dst = NULL;
+    //delete[] dst;
+    //dst = NULL;
 
-    delete labels;
-    labels = NULL;
+    //delete labels;
+    //labels = NULL;
     return 0;
 }
