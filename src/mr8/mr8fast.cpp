@@ -325,6 +325,7 @@ int main(int argc, char **argv)
         //cout << endl;
     }*/
 
+    cv::Mat mask;
     Ptr<cv::ximgproc::SuperpixelSLIC> slic = cv::ximgproc::createSuperpixelSLIC(img, cv::ximgproc::MSLIC);
     slic->iterate(); //迭代次数，默认为10
     slic->enforceLabelConnectivity();
