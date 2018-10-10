@@ -328,7 +328,7 @@ int main(int argc, char **argv)
     cv::Mat mask;
     cv::Mat labels;
     Ptr<cv::ximgproc::SuperpixelSLIC> slic = cv::ximgproc::createSuperpixelSLIC(img, cv::ximgproc::SLICO, 50);
-    slic->iterate(5); //迭代次数，默认为10
+    slic->iterate(); //迭代次数，默认为10
     slic->enforceLabelConnectivity();
     slic->getLabelContourMask(mask);             //获取超像素的边界
     slic->getLabels(labels);                     //获取labels
